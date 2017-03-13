@@ -3,21 +3,28 @@
 class RGBStrip {
 
 public:
-  RGBStrip (short redPinValue,
+  RGBStrip (short powerPinValue,
+            short redPinValue,
             short greenPinValue,
             short bluePinValue)
   :
+    powerPin(powerPinValue),
     redPin(redPinValue),
     greenPin(greenPinValue),
     bluePin(bluePinValue)
   {
+
+    digitalMode(powerPin, OUTPUT);
+
+    digitalWrite(poewerPin, HIGH);
+
     redValue = 0;
     greenValue = 0;
     blueValue = 0;
 
     maxGlow = 200;
 
-    isOn = false;
+    isOn = true;
   }
 
   ~RGBStrip ();
@@ -47,16 +54,7 @@ public:
       return;
     }
 
-    if (redValue == greenValue == blueValue == 0)
-    {
-      int middleValue = maxGlow/2;
-
-      SetRGBValues(middleValue, middleValue, middleValue);
-    }
-    else
-    {
-      OnRGBValuesChanged();
-    }
+    digitalWrite(powerPin, HIGH);
   }
 
   void Off ()
@@ -66,7 +64,7 @@ public:
       return;
     }
 
-    
+    digitalWrite(powerPin, LOW);
   }
 
 private:
@@ -79,6 +77,7 @@ private:
 
 
 private:
+  short powerPin;
   short redPin;
   short greenPin;
   short bluePin;
