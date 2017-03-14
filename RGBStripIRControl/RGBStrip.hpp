@@ -1,5 +1,3 @@
- #include "Updatable.hpp"
-
 class RGBStrip {
 
 public:
@@ -14,8 +12,6 @@ public:
     bluePin(bluePinValue)
   {
 
-    digitalMode(powerPin, OUTPUT);
-
     redValue = 0;
     greenValue = 0;
     blueValue = 0;
@@ -23,7 +19,7 @@ public:
     maxGlow = 200;
   }
 
-  ~RGBStrip ();
+  ~RGBStrip () {};
 
   void SetRGBValues (int red, int green, int blue)
   {
@@ -50,7 +46,7 @@ public:
       return;
     }
 
-    digitalWrite(powerPin, HIGH);
+    OnStrip();
   }
 
   void Off ()
@@ -60,7 +56,7 @@ public:
       return;
     }
 
-    digitalWrite(powerPin, LOW);
+    OffStrip();
   }
 
   bool IsOn ()
@@ -71,11 +67,13 @@ public:
 private:
   void OnRGBValuesChanged ()
   {
-    analogWrite(redPin, redValue);
-    analogWrite(greenPin, greenValue);
-    analogWrite(bluePin, blueValue);
+    UpdateStrip(redValue, greenValue, blueValue);
   }
 
+public:
+  void (*UpdateStrip) (int, int, int);
+  void (*OnStrip) ();
+  void (*OffStrip) ();
 
 private:
   short powerPin;
