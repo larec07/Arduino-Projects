@@ -1,4 +1,4 @@
-#include "Updatable.hpp"
+ #include "Updatable.hpp"
 
 class RGBStrip {
 
@@ -16,15 +16,11 @@ public:
 
     digitalMode(powerPin, OUTPUT);
 
-    digitalWrite(poewerPin, HIGH);
-
     redValue = 0;
     greenValue = 0;
     blueValue = 0;
 
     maxGlow = 200;
-
-    isOn = true;
   }
 
   ~RGBStrip ();
@@ -65,6 +61,11 @@ public:
     }
 
     digitalWrite(powerPin, LOW);
+  }
+
+  bool IsOn ()
+  {
+    return isOn;
   }
 
 private:
