@@ -17,6 +17,8 @@ public:
     blueValue = 0;
 
     maxGlow = 200;
+
+    changeInterval = maxGlow/5;
   }
 
   ~RGBStrip () {};
@@ -64,7 +66,50 @@ public:
     return isOn;
   }
 
+#pragma mark - Increment/Decrement ich component separately
+/// Red
+  void IncreaseRed ()
+  {
+    ProcessComponent(redValue, redValue + changeInterval);
+  }
+
+  void DecreaseRed ()
+  {
+    ProcessComponent(redValue, redValue - changeInterval);
+  }
+/// Green
+  void IncreaseGreen ()
+  {
+    ProcessComponent(greenValue, greenValue + changeInterval);
+  }
+
+  void DecreaseGreen ()
+  {
+    ProcessComponent(greenValue, greenValue - changeInterval);
+  }
+/// Blue
+  void IncreaseBlue ()
+  {
+    ProcessComponent(blueValue, blueValue + changeInterval);
+  }
+
+  void DecreaseBlue ()
+  {
+    ProcessComponent(blueValue, blueValue - changeInterval);
+  }
+
 private:
+  void ProcessComponent (int &currentValue, int newValue)
+  {
+    int considerValue = constrain(newValue, 0, maxGlow);
+
+    if (considerValue != currentValue)
+    {
+      currentValue = considerValue;
+      OnRGBValuesChanged();
+    }
+  }
+
   void OnRGBValuesChanged ()
   {
     UpdateStrip(redValue, greenValue, blueValue);
@@ -77,6 +122,7 @@ public:
 
 private:
   short powerPin;
+
   short redPin;
   short greenPin;
   short bluePin;
@@ -86,6 +132,8 @@ private:
   int blueValue;
 
   int maxGlow;
+
+  short changeInterval;
 
   bool isOn;
 };
