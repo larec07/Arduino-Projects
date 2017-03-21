@@ -24,14 +24,15 @@ void OffStrip () {
 }
 
 #pragma mark Life Cycle
-RGBStrip strip = RGBStrip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
+volatile RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
 
 void setup() {
 
-//  strip.UpdateStrip = &UpdateStrip;
+  strip.UpdateStrip = &UpdateStrip;
+  strip.OnStrip = &OnStrip;
+  strip.OffStrip = &OffStrip;
   pinMode(STRIPPOWER_PIN, OUTPUT);
 }
 
 void loop () {
 }
-
