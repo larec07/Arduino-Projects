@@ -1,7 +1,7 @@
 #include <IRremote.h>
 #include "TransmittersCodes.h"
 
-#define IRPIN 0
+#define IRPIN 2
 
 enum Transmitter_Type
 {
@@ -25,7 +25,7 @@ void loop () {
   checkIRSensor();
 }
 
-#pragma mark - IR Remote Signal
+// #pragma mark - IR Remote Signal
 
 void checkIRSensor () {
 
@@ -45,6 +45,6 @@ void checkIRSensor () {
 
 void processRemoteComand () {
 
-  unsigned long value = results.value;
+//  unsigned long value = results.value;
 
 }
