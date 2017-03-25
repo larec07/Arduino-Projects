@@ -1,11 +1,13 @@
 #include "RGBStrip.hpp"
+#include "TransmittersCodes.h"
 
+// #pragma mark - Pin Definition
 #define STRIPPOWER_PIN 2
 #define RED_PIN 3
 #define GREEN_PIN 5
 #define BLUE_PIN 6
 
-#pragma mark - RGBStrip Delegate
+// #pragma mark - RGBStrip Delegate
 void UpdateStrip (int r, int g, int b) {
 
   analogWrite(RED_PIN, r);
@@ -23,7 +25,7 @@ void OffStrip () {
   digitalWrite(STRIPPOWER_PIN, LOW);
 }
 
-#pragma mark Life Cycle
+// #pragma mark - Main App Life Cycle
 volatile RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
 
 void setup() {
