@@ -1,3 +1,6 @@
+
+static const int MaxGlow = 200;
+
 class RGBStrip {
 
 public:
@@ -16,18 +19,16 @@ public:
     greenValue = 0;
     blueValue = 0;
 
-    maxGlow = 200;
-
-    changeInterval = maxGlow/5;
+    changeInterval = MaxGlow/5;
   }
 
   ~RGBStrip () {};
 
   void SetRGBValues (int red, int green, int blue)
   {
-    int constrainedRed = constrain(red, 0, maxGlow);
-    int constrainedGreen = constrain(green, 0, maxGlow);
-    int constrainedBlue = constrain(blue, 0, maxGlow);
+    int constrainedRed = constrain(red, 0, MaxGlow);
+    int constrainedGreen = constrain(green, 0, MaxGlow);
+    int constrainedBlue = constrain(blue, 0, MaxGlow);
 
     if (constrainedRed != redValue
       || constrainedGreen != greenValue
@@ -66,7 +67,7 @@ public:
     return isOn;
   }
 
-#pragma mark - Increment/Decrement ich component separately
+// #pragma mark - Increment/Decrement ich component separately
 /// Red
   void IncreaseRed ()
   {
@@ -98,10 +99,31 @@ public:
     ProcessComponent(blueValue, blueValue - changeInterval);
   }
 
+// #pragma mark - Set Constant Colors
+  void SetWhiteColor ()
+  {
+      SetRGBValues(MaxGlow, MaxGlow, MaxGlow);
+  }
+
+  void SetRedColor ()
+  {
+    SetRGBValues(MaxGlow, 0, 0);
+  }
+
+  void SetGreenColor ()
+  {
+    SetRGBValues(0, MaxGlow, 0);
+  }
+
+  void SetBlueColor ()
+  {
+    SetRGBValues(0, 0, MaxGlow);
+  }
+
 private:
   void ProcessComponent (int &currentValue, int newValue)
   {
-    int considerValue = constrain(newValue, 0, maxGlow);
+    int considerValue = constrain(newValue, 0, MaxGlow);
 
     if (considerValue != currentValue)
     {
@@ -130,8 +152,6 @@ private:
   int redValue;
   int greenValue;
   int blueValue;
-
-  int maxGlow;
 
   short changeInterval;
 
