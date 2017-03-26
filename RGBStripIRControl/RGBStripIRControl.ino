@@ -31,7 +31,6 @@ void OffStrip () {
 
 // #pragma mark - Global Variables
 IRrecv irrecv(IRPin);
-volatile decode_results irResults;
 
 RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
 
@@ -51,12 +50,12 @@ void setup() {
 }
 
 void loop () {
-
-
 }
 
 // #pragma mark - IRRemote Signal Proccessing
 void checkForSignal () {
+
+  decode_results irResults;
 
   if (irrecv.decode(&irResults)) {
 

@@ -1,5 +1,5 @@
 
-static const int MaxGlow = 200;
+static const int MaxGlow = 220;
 
 class RGBStrip {
 
