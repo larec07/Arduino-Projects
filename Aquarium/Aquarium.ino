@@ -59,8 +59,6 @@ void checkForSignal () {
 
   if (irrecv.decode(&irResults)) {
 
-    Serial.println("checkForSignal");
-
     irrecv.resume();
 
     proccessSignal (irResults.value, irResults.bits);
@@ -69,10 +67,10 @@ void checkForSignal () {
 
 void proccessSignal (unsigned long value, int bits) {
 
-  Serial.print("Value = ");
-  Serial.print(value);
-  Serial.print("\tBits = ");
-  Serial.println(bits);
+  // Serial.print("Value = ");
+  // Serial.print(value);
+  // Serial.print("\tBits = ");
+  // Serial.println(bits);
 
   if (bits == 32) {
 
