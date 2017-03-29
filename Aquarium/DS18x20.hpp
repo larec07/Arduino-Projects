@@ -1,18 +1,24 @@
 #include "Updatable.hpp"
 #include <OneWire.h>
+#include "TimeConstants.h"
 
 class DS18x20 : public Updatable {
 
 public:
-  DS18x20(uint8_t pin, unsigned long timeInterval = 1000) : Updatable(timeInterval), ds(OneWire(pin)) {};
+  DS18x20(uint8_t pin, unsigned long timeInterval = MINUTE_IN_MILLIS) : Updatable(timeInterval), ds(OneWire(pin)) : lastUpdatedTime(0) {};
 
 public:
-  void Update () {
+  void Update (unsigned long currentTime) {
 
+    if (abs(currentTime - lastUpdatedTime) <= timeInterval) {
+
+      lastUpdatedTime = currentTime;
+      Procceess();
+    }
   };
 
 public:
-  void OnTemperatureDidChange (float newValue);
+  void UpdateTemperature (float newValue);
 
 private:
   Procceess () {
@@ -82,6 +88,8 @@ private:
 
         celsius = potentialCelcius;
         fahrenheit = celsius * 1.8 + 32.0;
+
+        OnTemperatureDidChange();
     }
   };
 
@@ -95,4 +103,6 @@ private:
   byte data[12];
   byte addr[8];
   float celsius, fahrenheit;
+
+  unsigned long lastUpdatedTime;
 };

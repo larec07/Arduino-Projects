@@ -2,6 +2,7 @@
 
 #include "RGBStrip.hpp"
 #include "TransmittersCodes.h"
+#include "DS18x20.hpp"
 
 // #pragma mark - Pin Definition
 #define STRIPPOWER_PIN 7
@@ -10,6 +11,8 @@
 #define BLUE_PIN 11
 
 #define IRPin 2 // Interruption 1
+
+#define TEMPERATURESENSOR_PIN 6
 
 // #pragma mark - RGBStrip Delegate
 void UpdateStrip (int r, int g, int b) {
@@ -29,10 +32,18 @@ void OffStrip () {
   digitalWrite(STRIPPOWER_PIN, LOW);
 }
 
+// #pragma mark - DS18x20Delegate
+void UpdateTemperature (float value) {
+
+  Serial.print("Temp = ");
+  Serial.println(value);
+}
+
 // #pragma mark - Global Variables
 IRrecv irrecv(IRPin);
 
 RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
+DS18x20 temperature()
 
 // #pragma mark - Main App Life Cycle
 void setup() {
@@ -47,6 +58,8 @@ void setup() {
   strip.OnStrip = &OnStrip;
   strip.OffStrip = &OffStrip;
   pinMode(STRIPPOWER_PIN, OUTPUT);
+
+  temperature.UpdateTemperature =
 }
 
 void loop () {
