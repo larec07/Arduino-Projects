@@ -2,17 +2,28 @@
 #include <OneWire.h>
 #include "TimeConstants.h"
 
+typedef enum DS18x20SensorState
+{
+  DS18x20SensorState_Waiting,
+  DS18x20SensorState_PrepareComplete,
+};
+
 class DS18x20 : public Updatable {
 
 public:
-  DS18x20(uint8_t pin, unsigned long timeInterval = MINUTE_IN_MILLIS) : Updatable(timeInterval), ds(OneWire(pin)) : lastUpdatedTime(0) {};
+  DS18x20(uint8_t pin, unsigned long timeInterval = MINUTE_IN_MILLIS)
+  : ds(OneWire(pin)), updateInterval(timeInterval), lastUpdatedTime(0), state(DS18x20SensorState_Waiting) {};
 
 public:
   void Update (unsigned long currentTime) {
 
-    if (abs(currentTime - lastUpdatedTime) <= timeInterval) {
+    if (state == DS18x20SensorState_Waiting && abs(currentTime - lastUpdatedTime) <= updateInterval) {
 
       lastUpdatedTime = currentTime;
+      Prepare();
+    }
+    else if (state == DS18x20SensorState_PrepareComplete && abs(currentTime - lastUpdatedTime) <= SEC_IN_MILLIS) {
+
       Procceess();
     }
   };
@@ -21,7 +32,7 @@ public:
   void UpdateTemperature (float newValue);
 
 private:
-  Procceess () {
+void  Prepare () {
 
     if ( !ds.search(addr)) {
 
@@ -51,8 +62,12 @@ private:
     ds.reset();
     ds.select(addr);
     // ds.write(0x44, 1);        // start conversion, with parasite power on at the end
+    state = DS18x20SensorState_PrepareComplete;
+  }
 
-    delay(1000);
+void  Procceess () {
+
+    // delay(1000);
 
     ds.reset();
     ds.select(addr);
@@ -82,15 +97,17 @@ private:
       //// default is 12 bit resolution, 750 ms conversion time
     }
 
-    float potentialCelcium = (float)raw / 16.0;
+    float potentialCelcius = (float)raw / 16.0;
 
     if (potentialCelcius != celsius) {
 
         celsius = potentialCelcius;
         fahrenheit = celsius * 1.8 + 32.0;
 
-        OnTemperatureDidChange();
+        UpdateTemperature(celsius);
     }
+
+    state = DS18x20SensorState_Waiting;
   };
 
 private:
@@ -104,5 +121,8 @@ private:
   byte addr[8];
   float celsius, fahrenheit;
 
+  unsigned long updateInterval;
   unsigned long lastUpdatedTime;
+
+  DS18x20SensorState state;
 };

@@ -43,7 +43,7 @@ void UpdateTemperature (float value) {
 IRrecv irrecv(IRPin);
 
 RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
-DS18x20 temperature()
+DS18x20 temperature(TEMPERATURESENSOR_PIN);
 
 // #pragma mark - Main App Life Cycle
 void setup() {
@@ -59,7 +59,7 @@ void setup() {
   strip.OffStrip = &OffStrip;
   pinMode(STRIPPOWER_PIN, OUTPUT);
 
-  temperature.UpdateTemperature =
+//  temperature.UpdateTemperature = &UpdateTemperature;
 }
 
 void loop () {
