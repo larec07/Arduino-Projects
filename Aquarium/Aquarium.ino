@@ -40,7 +40,7 @@ void UpdateTemperature (float value) {
 }
 
 // #pragma mark - Global Variables
-IRrecv irrecv(IRPin);
+volatile IRrecv irrecv(IRPin);
 
 RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
 DS18x20 temperature(TEMPERATURESENSOR_PIN);
@@ -59,63 +59,8 @@ void setup() {
   strip.OffStrip = &OffStrip;
   pinMode(STRIPPOWER_PIN, OUTPUT);
 
-//  temperature.UpdateTemperature = &UpdateTemperature;
+ // temperature.UpdateTemperature = &UpdateTemperature;
 }
 
 void loop () {
-}
-
-// #pragma mark - IRRemote Signal Proccessing
-void checkForSignal () {
-
-  decode_results irResults;
-
-  if (irrecv.decode(&irResults)) {
-
-    irrecv.resume();
-
-    proccessSignal (irResults.value, irResults.bits);
-  }
-}
-
-void proccessSignal (unsigned long value, int bits) {
-
-  // Serial.print("Value = ");
-  // Serial.print(value);
-  // Serial.print("\tBits = ");
-  // Serial.println(bits);
-
-  if (bits == 32) {
-
-    if (value == CODE_HUYNDAI_0) {
-      strip.SetWhiteColor();
-    }
-    else if (value == CODE_HUYNDAI_1) {
-      strip.SetRedColor();
-    }
-    else if (value == CODE_HUYNDAI_2) {
-      strip.IncreaseRed();
-    }
-    else if (value == CODE_HUYNDAI_3) {
-      strip.DecreaseRed();
-    }
-    else if (value == CODE_HUYNDAI_4) {
-      strip.SetGreenColor();
-    }
-    else if (value == CODE_HUYNDAI_5) {
-      strip.IncreaseGreen();
-    }
-    else if (value == CODE_HUYNDAI_6) {
-      strip.DecreaseGreen();
-    }
-    else if (value == CODE_HUYNDAI_7) {
-      strip.SetBlueColor();
-    }
-    else if (value == CODE_HUYNDAI_8) {
-      strip.IncreaseBlue();
-    }
-    else if (value == CODE_HUYNDAI_9) {
-      strip.DecreaseBlue();
-    }
-  }
 }
