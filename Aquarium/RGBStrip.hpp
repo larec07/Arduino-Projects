@@ -67,7 +67,7 @@ public:
     return isOn;
   }
 
-// #pragma mark - Increment/Decrement ich component separately
+// #pragma mark - Increment/Decrement each component separately
 /// Red
   void IncreaseRed ()
   {
