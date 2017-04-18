@@ -13,7 +13,16 @@
 #define IRPin 2 // Interruption 1
 
 #define TEMPERATURESENSOR_PIN 6
+// #pragma mark - Common Delegation
+void MakeDelay (unsigned long value) {
 
+  delay(value);
+}
+
+void DebugPrint (char *text) {
+
+  Serial.println(text);
+}
 // #pragma mark - RGBStrip Delegate
 void UpdateStrip (int r, int g, int b) {
 
@@ -52,15 +61,19 @@ void setup() {
 
   irrecv.enableIRIn();
 
-  attachInterrupt(1, checkForSignal, CHANGE);
+//  attachInterrupt(1, checkForSignal, CHANGE);
 
   strip.UpdateStrip = &UpdateStrip;
   strip.OnStrip = &OnStrip;
   strip.OffStrip = &OffStrip;
   pinMode(STRIPPOWER_PIN, OUTPUT);
 
- // temperature.UpdateTemperature = &UpdateTemperature;
+  temperature.UpdateTemperature = &UpdateTemperature;
+  temperature.MakeDelay = &MakeDelay;
+  temperature.DebugPrint = &DebugPrint;
 }
 
 void loop () {
+
+  temperature.Update(millis());
 }
