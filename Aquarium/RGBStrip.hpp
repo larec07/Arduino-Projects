@@ -100,6 +100,11 @@ public:
   }
 
 // #pragma mark - Set Constant Colors
+  void SetYellowColor ()
+  {
+    SetRGBValues(MaxGlow, MaxGlow, 0);
+  }
+
   void SetWhiteColor ()
   {
       SetRGBValues(MaxGlow, MaxGlow, MaxGlow);

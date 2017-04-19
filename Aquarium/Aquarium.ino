@@ -1,8 +1,7 @@
 #include <IRremote.h>
 
-#include "RGBStrip.hpp"
+#include "AquariumManager.hpp"
 #include "TransmittersCodes.h"
-#include "DS18x20.hpp"
 
 // #pragma mark - Pin Definition
 #define STRIPPOWER_PIN 7
@@ -13,6 +12,12 @@
 #define IRPin 2 // Interruption 1
 
 #define TEMPERATURESENSOR_PIN 6
+
+RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
+DS18x20 temperature(TEMPERATURESENSOR_PIN);
+
+int lightLevel = 0;
+
 // #pragma mark - Common Delegation
 void MakeDelay (unsigned long value) {
 
@@ -44,15 +49,27 @@ void OffStrip () {
 // #pragma mark - DS18x20Delegate
 void UpdateTemperature (float value) {
 
-  Serial.print("Temp = ");
-  Serial.println(value);
+  if (lightLevel < ThresholdLightnessValue) {
+
+    // Temperature value out of valid value
+    if (value < TemperatureYelowLowerLimit || value > TemperatureYelowUpperLimit) {
+
+      strip.SetRedColor();
+    }
+    // Temperature value in comfort range
+    else if (value >= TemperatureGreenLowerLimit && value <= TemperatureGreenUpperLimit) {
+
+      strip.Off();
+    }
+    else {
+
+      strip.SetYellowColor();
+    }
+  }
 }
 
 // #pragma mark - Global Variables
 volatile IRrecv irrecv(IRPin);
-
-RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
-DS18x20 temperature(TEMPERATURESENSOR_PIN);
 
 // #pragma mark - Main App Life Cycle
 void setup() {
