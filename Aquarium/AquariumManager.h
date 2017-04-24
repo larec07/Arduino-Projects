@@ -21,9 +21,16 @@ const short TemperatureGreenUpperLimit = 28;
 const short TemperatureGreenLowerLimit = 24;
 const short TemperatureYelowLowerLimit = 20;
 
-//class AquariumManager : public Updatable {
-//  
-//};
+class AquariumManager : public Updatable
+{
+  public:
+    AquariumManager (RGBStrip *, DS18x20 *);
+    void Update (unsigned long) override;
+    
+  private:
+    RGBStrip *strip;
+    DS18x20 *temperature;
+};
 
 
 // class
