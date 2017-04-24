@@ -1,10 +1,9 @@
+#include "RGBStrip.h"
+#include "NumericHelper.hpp"
 
 static const int MaxGlow = 220;
 
-class RGBStrip {
-
-public:
-  RGBStrip (short powerPinValue,
+  RGBStrip::RGBStrip (short powerPinValue,
             short redPinValue,
             short greenPinValue,
             short bluePinValue)
@@ -22,13 +21,11 @@ public:
     changeInterval = MaxGlow/5;
   }
 
-  ~RGBStrip () {};
-
-  void SetRGBValues (int red, int green, int blue)
+  void RGBStrip::SetRGBValues (int red, int green, int blue)
   {
-    int constrainedRed = constrain(red, 0, MaxGlow);
-    int constrainedGreen = constrain(green, 0, MaxGlow);
-    int constrainedBlue = constrain(blue, 0, MaxGlow);
+    int constrainedRed = Constrain(red, 0, MaxGlow);
+    int constrainedGreen = Constrain(green, 0, MaxGlow);
+    int constrainedBlue = Constrain(blue, 0, MaxGlow);
 
     if (constrainedRed != redValue
       || constrainedGreen != greenValue
@@ -42,7 +39,7 @@ public:
     }
   }
 
-  void On ()
+  void RGBStrip::On ()
   {
     if (isOn)
     {
@@ -52,7 +49,7 @@ public:
     OnStrip();
   }
 
-  void Off ()
+  void RGBStrip::Off ()
   {
     if (!isOn)
     {
@@ -62,68 +59,72 @@ public:
     OffStrip();
   }
 
-  bool IsOn ()
+  bool RGBStrip::IsOn ()
   {
     return isOn;
   }
 
-// #pragma mark - Increment/Decrement ich component separately
+// #pragma mark - Increment/Decrement each component separately
 /// Red
-  void IncreaseRed ()
+  void RGBStrip::IncreaseRed ()
   {
     ProcessComponent(redValue, redValue + changeInterval);
   }
 
-  void DecreaseRed ()
+  void RGBStrip::DecreaseRed ()
   {
     ProcessComponent(redValue, redValue - changeInterval);
   }
 /// Green
-  void IncreaseGreen ()
+  void RGBStrip::IncreaseGreen ()
   {
     ProcessComponent(greenValue, greenValue + changeInterval);
   }
 
-  void DecreaseGreen ()
+  void RGBStrip::DecreaseGreen ()
   {
     ProcessComponent(greenValue, greenValue - changeInterval);
   }
 /// Blue
-  void IncreaseBlue ()
+  void RGBStrip::IncreaseBlue ()
   {
     ProcessComponent(blueValue, blueValue + changeInterval);
   }
 
-  void DecreaseBlue ()
+  void RGBStrip::DecreaseBlue ()
   {
     ProcessComponent(blueValue, blueValue - changeInterval);
   }
 
 // #pragma mark - Set Constant Colors
-  void SetWhiteColor ()
+  void RGBStrip::SetYellowColor ()
+  {
+    SetRGBValues(MaxGlow, MaxGlow, 0);
+  }
+
+  void RGBStrip::SetWhiteColor ()
   {
       SetRGBValues(MaxGlow, MaxGlow, MaxGlow);
   }
 
-  void SetRedColor ()
+  void RGBStrip::SetRedColor ()
   {
     SetRGBValues(MaxGlow, 0, 0);
   }
 
-  void SetGreenColor ()
+  void RGBStrip::SetGreenColor ()
   {
     SetRGBValues(0, MaxGlow, 0);
   }
 
-  void SetBlueColor ()
+  void RGBStrip::SetBlueColor ()
   {
     SetRGBValues(0, 0, MaxGlow);
   }
 
-private:
-  void ProcessComponent (int &currentValue, int newValue)
+  void RGBStrip::ProcessComponent (int &currentValue, int newValue)
   {
-    int considerValue = constrain(newValue, 0, MaxGlow);
+    int considerValue = Constrain(newValue, 0, MaxGlow);
 
     if (considerValue != currentValue)
     {
@@ -132,28 +133,7 @@ private:
     }
   }
 
-  void OnRGBValuesChanged ()
+  void RGBStrip::OnRGBValuesChanged ()
   {
     UpdateStrip(redValue, greenValue, blueValue);
   }
-
-public:
-  void (*UpdateStrip) (int, int, int);
-  void (*OnStrip) ();
-  void (*OffStrip) ();
-
-private:
-  short powerPin;
-
-  short redPin;
-  short greenPin;
-  short bluePin;
-
-  int redValue;
-  int greenValue;
-  int blueValue;
-
-  short changeInterval;
-
-  bool isOn;
-};
