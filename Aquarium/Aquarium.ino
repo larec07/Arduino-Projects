@@ -77,7 +77,6 @@ void setup() {
   pinMode(STRIPPOWER_PIN, OUTPUT);
 
   temperature.UpdateTemperature = &UpdateTemperature;
-  temperature.MakeDelay = &MakeDelay;
   temperature.DebugPrint = &DebugPrint;
 }
 

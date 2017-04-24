@@ -21,9 +21,7 @@ static const int MaxGlow = 220;
     changeInterval = MaxGlow/5;
   }
 
-  RGBStrip::~RGBStrip ()
-  {
-  }
+  RGBStrip::~RGBStrip (){}
 
   void RGBStrip::SetRGBValues (int red, int green, int blue)
   {

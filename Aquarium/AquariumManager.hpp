@@ -1,7 +1,7 @@
 /**
   Class define behaviour of Led Strip according to environment(i.e. light and temperature state)
 */
-#include "DS18x20.hpp"
+#include "DS18x20.h"
 #include "RGBStrip.h"
 
 // #pragma mark - Pin Definition
@@ -20,6 +20,10 @@ const short TemperatureYelowUpperLimit = 33;
 const short TemperatureGreenUpperLimit = 28;
 const short TemperatureGreenLowerLimit = 24;
 const short TemperatureYelowLowerLimit = 20;
+
+//class AquariumManager : public Updatable {
+//  
+//};
 
 
 // class
