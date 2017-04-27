@@ -1,7 +1,8 @@
 #include <IRremote.h>
 
-#include "AquariumManager.hpp"
+#include "AquariumManager.h"
 #include "TransmittersCodes.h"
+//#include "TimeConstants.h"
 
 RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
 DS18x20 temperature(TEMPERATURESENSOR_PIN);
@@ -39,7 +40,7 @@ void OffStrip () {
 // #pragma mark - DS18x20Delegate
 void UpdateTemperature (float value) {
 
-  stripManager.OnTemperatureChanged(value);
+  stripManager.UpdateStripByTemperature(value);
 }
 
 // #pragma mark - Main App Life Cycle
@@ -47,7 +48,7 @@ void setup() {
 
   Serial.begin(9600);
 
-  irrecv.enableIRIn();
+//  irrecv.enableIRIn();
 
 //  attachInterrupt(1, checkForSignal, CHANGE);
 
