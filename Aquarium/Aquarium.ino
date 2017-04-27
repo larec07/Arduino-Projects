@@ -3,11 +3,10 @@
 #include "AquariumManager.hpp"
 #include "TransmittersCodes.h"
 
-
 RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
 DS18x20 temperature(TEMPERATURESENSOR_PIN);
 
-int lightLevel = 0;
+AquariumManager stripManager(&strip);
 
 // #pragma mark - Common Delegation
 void MakeDelay (unsigned long value) {
@@ -40,27 +39,8 @@ void OffStrip () {
 // #pragma mark - DS18x20Delegate
 void UpdateTemperature (float value) {
 
-  if (lightLevel < ThresholdLightnessValue) {
-
-    // Temperature value out of valid value
-    if (value < TemperatureYelowLowerLimit || value > TemperatureYelowUpperLimit) {
-
-      strip.SetRedColor();
-    }
-    // Temperature value in comfort range
-    else if (value >= TemperatureGreenLowerLimit && value <= TemperatureGreenUpperLimit) {
-
-      strip.Off();
-    }
-    else {
-
-      strip.SetYellowColor();
-    }
-  }
+  stripManager.OnTemperatureChanged(value);
 }
-
-// #pragma mark - Global Variables
-volatile IRrecv irrecv(IRPIN);
 
 // #pragma mark - Main App Life Cycle
 void setup() {
