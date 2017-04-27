@@ -14,6 +14,8 @@
 
 #define TEMPERATURESENSOR_PIN 6
 
+#define LIGHTNESS_PIN A0
+
 const short ThresholdLightnessValue = 500;
 
 const short TemperatureYelowUpperLimit = 33;
@@ -21,9 +23,18 @@ const short TemperatureGreenUpperLimit = 28;
 const short TemperatureGreenLowerLimit = 24;
 const short TemperatureYelowLowerLimit = 20;
 
-//class AquariumManager : public Updatable {
-//  
-//};
+class AquariumManager
+{
+  public:
+    AquariumManager (RGBStrip *);
+
+    void OnTemperatureChanged (float);
+    void OnLightnessChanged (int)
+
+  private:
+    RGBStrip *strip;
+    int lightLevel;
+};
 
 
 // class
