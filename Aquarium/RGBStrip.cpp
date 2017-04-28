@@ -41,6 +41,10 @@ static const int MaxGlow = 220;
     }
   }
 
+  void RGBStrip::SetWhiteColorWithGlow (int glow)
+  {
+    SetRGBValues(glow, glow, glow);
+  }
   void RGBStrip::On ()
   {
     if (isOn)

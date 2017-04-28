@@ -1,10 +1,12 @@
 #include "AquariumManager.h"
 
-AquariumManager::AquariumManager (RGBStrip *lenta) : strip(lenta), lightLevel(0) {}
+AquariumManager::AquariumManager (RGBStrip *lenta) : strip(lenta), lightnessLevel(0) {}
 
-void AquariumManager::OnTemperatureChanged (float temperature)
+void AquariumManager::UpdateStripByTemperature (float temp)
 {
-  if (lightLevel < ThresholdLightnessValue)
+  temperature = temp;
+
+  if (lightnessLevel < ThresholdLightnessValue)
   {
     // Temperature value out of valid value
     if (temperature < TemperatureYelowLowerLimit || temperature > TemperatureYelowUpperLimit)
@@ -23,7 +25,14 @@ void AquariumManager::OnTemperatureChanged (float temperature)
   }
 }
 
-void AquariumManager::OnLightnessChanged (int lightness)
+void AquariumManager::UpdateStripByLightness (int lightness)
 {
-  if ()
+  lightnessLevel = lightness;
+
+  if (lightnessLevel >= ThresholdLightnessValue)
+  {
+    int brightness = lightnessLevel/5;
+
+    strip->SetWhiteColorWithGlow(brightness);
+  }
 }
