@@ -28,12 +28,13 @@ class AquariumManager
   public:
     AquariumManager (RGBStrip *);
 
-    void OnTemperatureChanged (float);
-    void OnLightnessChanged (int)
+    void UpdateStripByTemperature (float);
+    void UpdateStripByLightness (int);
 
   private:
     RGBStrip *strip;
-    int lightLevel;
+    int lightnessLevel;
+    float temperature;
 };
 
 

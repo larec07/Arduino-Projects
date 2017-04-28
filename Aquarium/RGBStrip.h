@@ -15,6 +15,7 @@ public:
 
 //
   void SetRGBValues (int, int, int);
+  void SetWhiteColorWithGlow (int);
 
 // #pragma mark - Set Constant Colors
     void SetYellowColor ();
