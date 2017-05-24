@@ -1,8 +1,7 @@
 class RGBStrip {
 
 public:
-  RGBStrip (short powerPinValue,
-            short redPinValue,
+  RGBStrip (short redPinValue,
             short greenPinValue,
             short bluePinValue);
   ~RGBStrip ();
@@ -37,15 +36,15 @@ public:
 
 public:
   void (*UpdateStrip) (int, int, int);
-  void (*OnStrip) ();
-  void (*OffStrip) ();
+  // void (*OnStrip) ();
+  // void (*OffStrip) ();
 
 private:
   void ProcessComponent (int &, int);
   void OnRGBValuesChanged ();
 
 private:
-  short powerPin;
+  // short powerPin;
 
   short redPin;
   short greenPin;
