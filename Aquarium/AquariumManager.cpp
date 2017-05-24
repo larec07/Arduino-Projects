@@ -1,4 +1,5 @@
 #include "AquariumManager.h"
+#include "NumericHelper.hpp"
 
 AquariumManager::AquariumManager (RGBStrip *lenta) : strip(lenta), lightnessLevel(0) {}
 
@@ -41,7 +42,7 @@ void AquariumManager::UpdateStripByLightness (int lightness)
 
   if (lightnessLevel >= ThresholdLightnessValue)
   {
-    int brightness = lightnessLevel/5;
+    int brightness = Map(lightnessLevel, ThresholdLightnessValue, 1023, 10, 255);
 
     strip->SetWhiteColorWithGlow(brightness);
 

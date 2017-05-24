@@ -15,7 +15,7 @@
 
 #define LIGHTNESS_PIN A0
 
-const short ThresholdLightnessValue = 500;
+const int ThresholdLightnessValue = 500;
 
 const short TemperatureYelowUpperLimit = 33;
 const short TemperatureGreenUpperLimit = 28;
