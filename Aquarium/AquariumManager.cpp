@@ -27,6 +27,16 @@ void AquariumManager::UpdateStripByTemperature (float temp)
 
 void AquariumManager::UpdateStripByLightness (int lightness)
 {
+
+
+
+
+  if (abs(lightnessLevel - lightness) < 50)
+    return;
+
+    Serial.print("New value = ");
+    Serial.println(lightness);
+
   lightnessLevel = lightness;
 
   if (lightnessLevel >= ThresholdLightnessValue)
@@ -34,5 +44,14 @@ void AquariumManager::UpdateStripByLightness (int lightness)
     int brightness = lightnessLevel/5;
 
     strip->SetWhiteColorWithGlow(brightness);
+
+    Serial.print("Brightness value = ");
+    Serial.println(brightness);
+  }
+  else
+  {
+    strip->Off();
+
+    Serial.println("Off");
   }
 }

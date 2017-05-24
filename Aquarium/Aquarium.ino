@@ -2,9 +2,8 @@
 
 #include "AquariumManager.h"
 #include "TransmittersCodes.h"
-//#include "TimeConstants.h"
 
-RGBStrip strip(STRIPPOWER_PIN, RED_PIN, GREEN_PIN, BLUE_PIN);
+RGBStrip strip(RED_PIN, GREEN_PIN, BLUE_PIN);
 DS18x20 temperature(TEMPERATURESENSOR_PIN);
 
 AquariumManager stripManager(&strip);
@@ -27,16 +26,6 @@ void UpdateStrip (int r, int g, int b) {
   analogWrite(BLUE_PIN, b);
 }
 
-void OnStrip () {
-
-  digitalWrite(STRIPPOWER_PIN, HIGH);
-}
-
-void OffStrip () {
-
-  digitalWrite(STRIPPOWER_PIN, LOW);
-}
-
 // #pragma mark - DS18x20Delegate
 void UpdateTemperature (float value) {
 
@@ -53,9 +42,6 @@ void setup() {
 //  attachInterrupt(1, checkForSignal, CHANGE);
 
   strip.UpdateStrip = &UpdateStrip;
-  strip.OnStrip = &OnStrip;
-  strip.OffStrip = &OffStrip;
-  pinMode(STRIPPOWER_PIN, OUTPUT);
 
   temperature.UpdateTemperature = &UpdateTemperature;
   temperature.DebugPrint = &DebugPrint;
@@ -64,4 +50,5 @@ void setup() {
 void loop () {
 
   temperature.Update(millis());
+  stripManager.UpdateStripByLightness(analogRead(LIGHTNESS_PIN));
 }
