@@ -5,7 +5,6 @@
 #include "RGBStrip.h"
 
 // #pragma mark - Pin Definition
-#define STRIPPOWER_PIN 7
 #define RED_PIN 9
 #define GREEN_PIN 10
 #define BLUE_PIN 11
@@ -16,7 +15,7 @@
 
 #define LIGHTNESS_PIN A0
 
-const short ThresholdLightnessValue = 500;
+const int ThresholdLightnessValue = 500;
 
 const short TemperatureYelowUpperLimit = 33;
 const short TemperatureGreenUpperLimit = 28;
@@ -36,6 +35,3 @@ class AquariumManager
     int lightnessLevel;
     float temperature;
 };
-
-
-// class

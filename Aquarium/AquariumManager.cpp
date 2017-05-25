@@ -1,4 +1,5 @@
 #include "AquariumManager.h"
+#include "NumericHelper.hpp"
 
 AquariumManager::AquariumManager (RGBStrip *lenta) : strip(lenta), lightnessLevel(0) {}
 
@@ -27,12 +28,31 @@ void AquariumManager::UpdateStripByTemperature (float temp)
 
 void AquariumManager::UpdateStripByLightness (int lightness)
 {
+
+
+
+
+  if (abs(lightnessLevel - lightness) < 50)
+    return;
+
+    Serial.print("New value = ");
+    Serial.println(lightness);
+
   lightnessLevel = lightness;
 
   if (lightnessLevel >= ThresholdLightnessValue)
   {
-    int brightness = lightnessLevel/5;
+    int brightness = Map(lightnessLevel, ThresholdLightnessValue, 1023, 10, 255);
 
     strip->SetWhiteColorWithGlow(brightness);
+
+    Serial.print("Brightness value = ");
+    Serial.println(brightness);
+  }
+  else
+  {
+    strip->Off();
+
+    Serial.println("Off");
   }
 }

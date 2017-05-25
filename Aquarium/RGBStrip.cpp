@@ -1,27 +1,55 @@
 #include "RGBStrip.h"
 #include "NumericHelper.hpp"
 
-static const int MaxGlow = 220;
+static const int MaxGlow = 200;
 
-  RGBStrip::RGBStrip (short powerPinValue,
-            short redPinValue,
-            short greenPinValue,
-            short bluePinValue)
+  RGBStrip::RGBStrip (short redPinValue,
+                      short greenPinValue,
+                      short bluePinValue)
   :
-    powerPin(powerPinValue),
     redPin(redPinValue),
     greenPin(greenPinValue),
     bluePin(bluePinValue)
   {
+    isOn = false;
 
-    redValue = 0;
-    greenValue = 0;
-    blueValue = 0;
+    redValue = -1;
+    greenValue = -1;
+    blueValue = -1;
 
     changeInterval = MaxGlow/5;
   }
 
-  RGBStrip::~RGBStrip (){}
+  RGBStrip::~RGBStrip () {}
+
+  void RGBStrip::On ()
+  {
+    // if (isOn)
+    // {
+    //   return;
+    // }
+    //
+    // isOn = true;
+
+    SetWhiteColorWithGlow(MaxGlow);
+  }
+
+  void RGBStrip::Off ()
+  {
+    // if (!isOn)
+    // {
+    //   return;
+    // }
+    //
+    // isOn = false;
+
+    SetWhiteColorWithGlow(0);
+  }
+
+  bool RGBStrip::IsOn ()
+  {
+    return isOn;
+  }
 
   void RGBStrip::SetRGBValues (int red, int green, int blue)
   {
@@ -29,45 +57,23 @@ static const int MaxGlow = 220;
     int constrainedGreen = Constrain(green, 0, MaxGlow);
     int constrainedBlue = Constrain(blue, 0, MaxGlow);
 
-    if (constrainedRed != redValue
-      || constrainedGreen != greenValue
-      || constrainedBlue != blueValue)
-    {
-      redValue = constrainedRed;
-      greenValue = constrainedGreen;
-      blueValue = constrainedBlue;
+    if (constrainedRed == redValue &&
+        constrainedGreen == greenValue &&
+        constrainedBlue  == blueValue)
+        {
+          return;
+        }
 
-      OnRGBValuesChanged();
-    }
+    redValue = constrainedRed;
+    greenValue = constrainedGreen;
+    blueValue = constrainedBlue;
+
+    OnRGBValuesChanged();
   }
 
   void RGBStrip::SetWhiteColorWithGlow (int glow)
   {
     SetRGBValues(glow, glow, glow);
-  }
-  void RGBStrip::On ()
-  {
-    if (isOn)
-    {
-      return;
-    }
-
-    OnStrip();
-  }
-
-  void RGBStrip::Off ()
-  {
-    if (!isOn)
-    {
-      return;
-    }
-
-    OffStrip();
-  }
-
-  bool RGBStrip::IsOn ()
-  {
-    return isOn;
   }
 
 // #pragma mark - Increment/Decrement each component separately
