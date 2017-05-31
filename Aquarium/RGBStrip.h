@@ -1,3 +1,5 @@
+static const int MaxGlow = 200;
+
 class RGBStrip {
 
 public:
@@ -14,14 +16,13 @@ public:
 
 //
   void SetRGBValues (int, int, int);
-  void SetWhiteColorWithGlow (int);
 
 // #pragma mark - Set Constant Colors
-    void SetYellowColor ();
-    void SetWhiteColor ();
-    void SetRedColor ();
-    void SetGreenColor ();
-    void SetBlueColor ();
+    void SetWhiteColor (int brightness = MaxGlow);
+    void SetYellowColor (int brightness = MaxGlow);
+    void SetRedColor (int brightness = MaxGlow);
+    void SetGreenColor (int brightness = MaxGlow);
+    void SetBlueColor (int brightness = MaxGlow);
 
 // #pragma mark - Increment/Decrement each component separately
     /// Red

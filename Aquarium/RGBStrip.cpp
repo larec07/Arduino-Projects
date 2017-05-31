@@ -1,8 +1,6 @@
 #include "RGBStrip.h"
 #include "NumericHelper.hpp"
 
-static const int MaxGlow = 200;
-
   RGBStrip::RGBStrip (short redPinValue,
                       short greenPinValue,
                       short bluePinValue)
@@ -31,7 +29,7 @@ static const int MaxGlow = 200;
     //
     // isOn = true;
 
-    SetWhiteColorWithGlow(MaxGlow);
+    SetWhiteColor(MaxGlow);
   }
 
   void RGBStrip::Off ()
@@ -43,7 +41,7 @@ static const int MaxGlow = 200;
     //
     // isOn = false;
 
-    SetWhiteColorWithGlow(0);
+    SetWhiteColor(0);
   }
 
   bool RGBStrip::IsOn ()
@@ -69,11 +67,6 @@ static const int MaxGlow = 200;
     blueValue = constrainedBlue;
 
     OnRGBValuesChanged();
-  }
-
-  void RGBStrip::SetWhiteColorWithGlow (int glow)
-  {
-    SetRGBValues(glow, glow, glow);
   }
 
 // #pragma mark - Increment/Decrement each component separately
@@ -109,29 +102,29 @@ static const int MaxGlow = 200;
   }
 
 // #pragma mark - Set Constant Colors
-  void RGBStrip::SetYellowColor ()
+  void RGBStrip::SetWhiteColor (int brightness)
   {
-    SetRGBValues(MaxGlow, MaxGlow, 0);
+      SetRGBValues(brightness, brightness, brightness);
+  }
+  
+  void RGBStrip::SetYellowColor (int brightness)
+  {
+    SetRGBValues(brightness, brightness, 0);
   }
 
-  void RGBStrip::SetWhiteColor ()
+  void RGBStrip::SetRedColor (int brightness)
   {
-      SetRGBValues(MaxGlow, MaxGlow, MaxGlow);
+    SetRGBValues(brightness, 0, 0);
   }
 
-  void RGBStrip::SetRedColor ()
+  void RGBStrip::SetGreenColor (int brightness)
   {
-    SetRGBValues(MaxGlow, 0, 0);
+    SetRGBValues(0, brightness, 0);
   }
 
-  void RGBStrip::SetGreenColor ()
+  void RGBStrip::SetBlueColor (int brightness)
   {
-    SetRGBValues(0, MaxGlow, 0);
-  }
-
-  void RGBStrip::SetBlueColor ()
-  {
-    SetRGBValues(0, 0, MaxGlow);
+    SetRGBValues(0, 0, brightness);
   }
 
   void RGBStrip::ProcessComponent (int &currentValue, int newValue)

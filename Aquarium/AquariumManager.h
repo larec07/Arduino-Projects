@@ -15,7 +15,7 @@
 
 #define LIGHTNESS_PIN A0
 
-const int ThresholdLightnessValue = 800;
+const int ThresholdLightnessValue = 900;
 
 const short TemperatureYelowUpperLimit = 33;
 const short TemperatureGreenUpperLimit = 28;
@@ -29,6 +29,10 @@ class AquariumManager
 
     void UpdateStripByTemperature (float);
     void UpdateStripByLightness (int);
+
+  private:
+    void OnTemperatureChanged ();
+    void OnLightnessChanged ();
 
   private:
     RGBStrip *strip;
