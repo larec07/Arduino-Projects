@@ -5,6 +5,9 @@ AquariumManager::AquariumManager (RGBStrip *lenta) : strip(lenta), lightnessLeve
 
 void AquariumManager::UpdateStripByTemperature (float temp)
 {
+  if (temp = temperature)
+    return;
+  
   temperature = temp;
 
   if (lightnessLevel < ThresholdLightnessValue)
@@ -28,15 +31,8 @@ void AquariumManager::UpdateStripByTemperature (float temp)
 
 void AquariumManager::UpdateStripByLightness (int lightness)
 {
-
-
-
-
   if (abs(lightnessLevel - lightness) < 50)
     return;
-
-    Serial.print("New value = ");
-    Serial.println(lightness);
 
   lightnessLevel = lightness;
 
@@ -45,14 +41,9 @@ void AquariumManager::UpdateStripByLightness (int lightness)
     int brightness = Map(lightnessLevel, ThresholdLightnessValue, 1023, 10, 255);
 
     strip->SetWhiteColorWithGlow(brightness);
-
-    Serial.print("Brightness value = ");
-    Serial.println(brightness);
   }
   else
   {
     strip->Off();
-
-    Serial.println("Off");
   }
 }
