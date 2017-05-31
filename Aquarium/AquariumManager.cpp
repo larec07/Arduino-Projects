@@ -5,7 +5,7 @@ AquariumManager::AquariumManager (RGBStrip *lenta) : strip(lenta), lightnessLeve
 
 void AquariumManager::UpdateStripByTemperature (float temp)
 {
-  if (temp = temperature)
+  if (abs(temp - temperature) < 1.0f)
     return;
   
   temperature = temp;
