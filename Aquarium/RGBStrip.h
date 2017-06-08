@@ -3,9 +3,7 @@ static const int MaxGlow = 200;
 class RGBStrip {
 
 public:
-  RGBStrip (short redPinValue,
-            short greenPinValue,
-            short bluePinValue);
+  RGBStrip (short, short, short);
   ~RGBStrip ();
 
 public:
@@ -54,6 +52,10 @@ private:
   int redValue;
   int greenValue;
   int blueValue;
+
+  int preferedValueRed;
+  int preferedValueGreen;
+  int preferedValueBlue;
 
   short changeInterval;
 

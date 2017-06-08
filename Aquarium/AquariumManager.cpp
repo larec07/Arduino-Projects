@@ -15,7 +15,7 @@ void AquariumManager::UpdateStripByTemperature (float temp)
 
 void AquariumManager::UpdateStripByLightness (int lightness)
 {
-  if (abs(lightnessLevel - lightness) < 50)
+  if (abs(lightnessLevel - lightness) < 10)
     return;
 
   lightnessLevel = lightness;
@@ -27,19 +27,22 @@ void AquariumManager::OnTemperatureChanged ()
 {
   if (lightnessLevel < ThresholdLightnessValue)
   {
-    // Temperature value out of valid value
-    if (temperature < TemperatureYelowLowerLimit || temperature > TemperatureYelowUpperLimit)
+    // Temperature value greater than necessary
+    if (temperature > TemperatureGreenUpperLimit)
     {
-      strip->SetRedColor(100);
+      int brightness = Map(temperature, TemperatureGreenUpperLimit, TemperatureYelowUpperLimit, 1, MaxGlow);
+      strip->SetRedColor(brightness);
+    }
+    // Temperature value less than necessary
+    else if (temperature < TemperatureGreenLowerLimit)
+    {
+      int brightness = Map(temperature, TemperatureGreenLowerLimit, TemperatureYelowLowerLimit, 1, MaxGlow);
+      strip->SetBlueColor(brightness);
     }
     // Temperature value in comfort range
-    else if (temperature >= TemperatureGreenLowerLimit && temperature <= TemperatureGreenUpperLimit)
-    {
-      strip->Off();
-    }
     else
     {
-      strip->SetYellowColor(100);
+      strip->Off();
     }
   }
 }
@@ -48,9 +51,9 @@ void AquariumManager::OnLightnessChanged ()
 {
   if (lightnessLevel >= ThresholdLightnessValue)
   {
-    int brightness = Map(lightnessLevel, ThresholdLightnessValue, 1023, 60, 255);
+    int brightness = Map(lightnessLevel, ThresholdLightnessValue, 1023, 60, MaxGlow);
 
-    strip->SetWhiteColorWithGlow(brightness);
+    strip->SetWhiteColor(brightness);
   }
   else
   {
