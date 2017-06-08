@@ -11,7 +11,7 @@ typedef enum
   class DS18x20 : public Updatable {
 
   public:
-    DS18x20 (uint8_t, unsigned long timeInterval = 60000);
+    DS18x20 (uint8_t, unsigned long timeInterval = 6000);
     void Update (unsigned long) override;
     
 // #pragma mark - DS18x20 Delegate
