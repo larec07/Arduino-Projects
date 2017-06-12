@@ -40,6 +40,11 @@ void setup() {
 //  irrecv.enableIRIn();
 
 //  attachInterrupt(1, checkForSignal, CHANGE);
+  pinMode(RED_PIN, OUTPUT);
+  pinMode(GREEN_PIN, OUTPUT);
+  pinMode(BLUE_PIN, OUTPUT);
+
+  TCCR0A = _BV(COM0A1) | _BV(COM0B1) | _BV(WGM00);
 
   strip.UpdateStrip = &UpdateStrip;
 

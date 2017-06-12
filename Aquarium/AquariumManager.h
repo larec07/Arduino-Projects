@@ -7,7 +7,7 @@
 // #pragma mark - Pin Definition
 #define RED_PIN 9
 #define GREEN_PIN 10
-#define BLUE_PIN 11
+#define BLUE_PIN 5
 
 #define IRPIN 2 // Interruption 1
 
