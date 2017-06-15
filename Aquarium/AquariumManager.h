@@ -7,15 +7,15 @@
 // #pragma mark - Pin Definition
 #define RED_PIN 9
 #define GREEN_PIN 10
-#define BLUE_PIN 5
+#define BLUE_PIN 6
 
 #define IRPIN 2 // Interruption 1
 
-#define TEMPERATURESENSOR_PIN 6
+#define TEMPERATURESENSOR_PIN A1
 
 #define LIGHTNESS_PIN A0
 
-const int ThresholdLightnessValue = 900;
+const int ThresholdLightnessValue = 500; /// 900 - optimal for Iskra Neo, but Iskra Mini has another behavior with the same value (strange...)
 
 const short TemperatureYelowUpperLimit = 33;
 const short TemperatureGreenUpperLimit = 28;
