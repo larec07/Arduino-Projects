@@ -15,7 +15,7 @@
 
 #define LIGHTNESS_PIN A0
 
-const int ThresholdLightnessValue = 500; /// 900 - optimal for Iskra Neo, but Iskra Mini has another behavior with the same value (strange...)
+const int ThresholdLightnessValue = 800; /// 900 - optimal for Iskra Neo, but Iskra Mini has another behavior with the same value (strange...)
 
 const short TemperatureYelowUpperLimit = 33;
 const short TemperatureGreenUpperLimit = 28;
