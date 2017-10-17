@@ -1,10 +1,9 @@
+static const int MaxGlow = 200;
+
 class RGBStrip {
 
 public:
-  RGBStrip (short powerPinValue,
-            short redPinValue,
-            short greenPinValue,
-            short bluePinValue);
+  RGBStrip (short, short, short);
   ~RGBStrip ();
 
 public:
@@ -17,11 +16,11 @@ public:
   void SetRGBValues (int, int, int);
 
 // #pragma mark - Set Constant Colors
-    void SetYellowColor ();
-    void SetWhiteColor ();
-    void SetRedColor ();
-    void SetGreenColor ();
-    void SetBlueColor ();
+    void SetWhiteColor (int brightness = MaxGlow);
+    void SetYellowColor (int brightness = MaxGlow);
+    void SetRedColor (int brightness = MaxGlow);
+    void SetGreenColor (int brightness = MaxGlow);
+    void SetBlueColor (int brightness = MaxGlow);
 
 // #pragma mark - Increment/Decrement each component separately
     /// Red
@@ -34,17 +33,22 @@ public:
     void IncreaseBlue ();
     void DecreaseBlue ();
 
+// #pragma mark - Change value of any component persistent for other
+    void ChangeRedComponentTo (uint8_t value);
+    void ChangeGreenComponentTo (uint8_t value);
+    void ChangeBlueComponentTo (uint8_t value);
+
 public:
   void (*UpdateStrip) (int, int, int);
-  void (*OnStrip) ();
-  void (*OffStrip) ();
+  // void (*OnStrip) ();
+  // void (*OffStrip) ();
 
 private:
   void ProcessComponent (int &, int);
   void OnRGBValuesChanged ();
 
 private:
-  short powerPin;
+  // short powerPin;
 
   short redPin;
   short greenPin;
@@ -53,6 +57,10 @@ private:
   int redValue;
   int greenValue;
   int blueValue;
+
+  int preferedValueRed;
+  int preferedValueGreen;
+  int preferedValueBlue;
 
   short changeInterval;
 

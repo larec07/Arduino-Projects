@@ -33,6 +33,11 @@ public:
     void IncreaseBlue ();
     void DecreaseBlue ();
 
+// #pragma mark - Change value of any component persistent for other
+    void ChangeRedComponentTo (uint8_t value);
+    void ChangeGreenComponentTo (uint8_t value);
+    void ChangeBlueComponentTo (uint8_t value);
+
 public:
   void (*UpdateStrip) (int, int, int);
   // void (*OnStrip) ();

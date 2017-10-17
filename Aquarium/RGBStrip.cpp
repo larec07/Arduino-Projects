@@ -101,6 +101,22 @@
     ProcessComponent(blueValue, blueValue - changeInterval);
   }
 
+// #pragma mark - Change value of any component persistent for other
+  void ChangeRedComponentTo (uint8_t value)
+  {
+    SetRGBValues(value, greenValue, blueValue);
+  }
+    
+  void ChangeGreenComponentTo (uint8_t value)
+  {
+    SetRGBValues(redValue, value, blueValue);
+  }
+    
+  void ChangeBlueComponentTo (uint8_t value)
+  {
+    SetRGBValues(redValue, greenValue, value);
+  }
+
 // #pragma mark - Set Constant Colors
   void RGBStrip::SetWhiteColor (int brightness)
   {
