@@ -1,24 +1,52 @@
 #include "RGBStrip.h"
 #include "NumericHelper.hpp"
 
-static const int MaxGlow = 220;
-
-  RGBStrip::RGBStrip (short powerPinValue,
-            short redPinValue,
-            short greenPinValue,
-            short bluePinValue)
+  RGBStrip::RGBStrip (short redPinValue,
+                      short greenPinValue,
+                      short bluePinValue)
   :
-    powerPin(powerPinValue),
     redPin(redPinValue),
     greenPin(greenPinValue),
     bluePin(bluePinValue)
   {
+    isOn = false;
 
-    redValue = 0;
-    greenValue = 0;
-    blueValue = 0;
+    redValue = -1;
+    greenValue = -1;
+    blueValue = -1;
 
     changeInterval = MaxGlow/5;
+  }
+
+  RGBStrip::~RGBStrip () {}
+
+  void RGBStrip::On ()
+  {
+    // if (isOn)
+    // {
+    //   return;
+    // }
+    //
+    // isOn = true;
+
+    SetWhiteColor(MaxGlow);
+  }
+
+  void RGBStrip::Off ()
+  {
+    // if (!isOn)
+    // {
+    //   return;
+    // }
+    //
+    // isOn = false;
+
+    SetWhiteColor(0);
+  }
+
+  bool RGBStrip::IsOn ()
+  {
+    return isOn;
   }
 
   void RGBStrip::SetRGBValues (int red, int green, int blue)
@@ -27,41 +55,18 @@ static const int MaxGlow = 220;
     int constrainedGreen = Constrain(green, 0, MaxGlow);
     int constrainedBlue = Constrain(blue, 0, MaxGlow);
 
-    if (constrainedRed != redValue
-      || constrainedGreen != greenValue
-      || constrainedBlue != blueValue)
-    {
-      redValue = constrainedRed;
-      greenValue = constrainedGreen;
-      blueValue = constrainedBlue;
+    if (constrainedRed == redValue &&
+        constrainedGreen == greenValue &&
+        constrainedBlue  == blueValue)
+        {
+          return;
+        }
 
-      OnRGBValuesChanged();
-    }
-  }
+    redValue = constrainedRed;
+    greenValue = constrainedGreen;
+    blueValue = constrainedBlue;
 
-  void RGBStrip::On ()
-  {
-    if (isOn)
-    {
-      return;
-    }
-
-    OnStrip();
-  }
-
-  void RGBStrip::Off ()
-  {
-    if (!isOn)
-    {
-      return;
-    }
-
-    OffStrip();
-  }
-
-  bool RGBStrip::IsOn ()
-  {
-    return isOn;
+    OnRGBValuesChanged();
   }
 
 // #pragma mark - Increment/Decrement each component separately
@@ -96,30 +101,46 @@ static const int MaxGlow = 220;
     ProcessComponent(blueValue, blueValue - changeInterval);
   }
 
+// #pragma mark - Change value of any component persistent for other
+  void ChangeRedComponentTo (uint8_t value)
+  {
+    SetRGBValues(value, greenValue, blueValue);
+  }
+    
+  void ChangeGreenComponentTo (uint8_t value)
+  {
+    SetRGBValues(redValue, value, blueValue);
+  }
+    
+  void ChangeBlueComponentTo (uint8_t value)
+  {
+    SetRGBValues(redValue, greenValue, value);
+  }
+
 // #pragma mark - Set Constant Colors
-  void RGBStrip::SetYellowColor ()
+  void RGBStrip::SetWhiteColor (int brightness)
   {
-    SetRGBValues(MaxGlow, MaxGlow, 0);
+      SetRGBValues(brightness, brightness, brightness);
+  }
+  
+  void RGBStrip::SetYellowColor (int brightness)
+  {
+    SetRGBValues(brightness, brightness, 0);
   }
 
-  void RGBStrip::SetWhiteColor ()
+  void RGBStrip::SetRedColor (int brightness)
   {
-      SetRGBValues(MaxGlow, MaxGlow, MaxGlow);
+    SetRGBValues(brightness, 0, 0);
   }
 
-  void RGBStrip::SetRedColor ()
+  void RGBStrip::SetGreenColor (int brightness)
   {
-    SetRGBValues(MaxGlow, 0, 0);
+    SetRGBValues(0, brightness, 0);
   }
 
-  void RGBStrip::SetGreenColor ()
+  void RGBStrip::SetBlueColor (int brightness)
   {
-    SetRGBValues(0, MaxGlow, 0);
-  }
-
-  void RGBStrip::SetBlueColor ()
-  {
-    SetRGBValues(0, 0, MaxGlow);
+    SetRGBValues(0, 0, brightness);
   }
 
   void RGBStrip::ProcessComponent (int &currentValue, int newValue)
