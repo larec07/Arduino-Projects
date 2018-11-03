@@ -48,7 +48,6 @@ private:
   void OnRGBValuesChanged ();
 
 private:
-  // short powerPin;
 
   short redPin;
   short greenPin;
