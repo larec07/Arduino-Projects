@@ -1,4 +1,4 @@
-#include "Updatable.hpp"
+#include "TimeConstants.h"
 
 #include <OneWire.h>
 
@@ -8,11 +8,11 @@ typedef enum
     DS18x20SensorState_PrepareComplete,
   } DS18x20SensorState;
 
-  class DS18x20 : public Updatable {
+  class DS18x20 {
 
   public:
-    DS18x20 (uint8_t, unsigned long timeInterval = 6000);
-    void Update (unsigned long) override;
+    DS18x20 (uint8_t, Milliseconds timeInterval = 60000);
+    void Update (Milliseconds);
     
 // #pragma mark - DS18x20 Delegate
   public:
@@ -31,8 +31,8 @@ typedef enum
     byte addr[8];
     float celsius, fahrenheit;
 
-    unsigned long updateInterval;
-    unsigned long lastUpdatedTime;
+    Milliseconds updateInterval;
+    Milliseconds lastUpdatedTime;
 
     DS18x20SensorState state;
   };

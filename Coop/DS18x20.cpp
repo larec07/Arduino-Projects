@@ -1,13 +1,12 @@
 #include "DS18x20.h"
-#include "TimeConstants.h"
 
-  DS18x20::DS18x20(uint8_t pin, unsigned long timeInterval)
+  DS18x20::DS18x20(uint8_t pin, Milliseconds timeInterval)
   : ds(OneWire(pin)),
-   updateInterval(timeInterval),
-   lastUpdatedTime(0),
-   state(DS18x20SensorState_Waiting) {}
+    updateInterval(timeInterval),
+    lastUpdatedTime(0),
+    state(DS18x20SensorState_Waiting) {}
 
-   void DS18x20::Update (unsigned long currentTime)
+   void DS18x20::Update (Milliseconds currentTime)
    {
      if (state == DS18x20SensorState_Waiting
          && abs(currentTime - lastUpdatedTime) >= updateInterval)
