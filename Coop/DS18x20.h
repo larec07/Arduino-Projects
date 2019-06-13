@@ -11,13 +11,15 @@ typedef enum
   class DS18x20 {
 
   public:
-    DS18x20 (uint8_t, Milliseconds timeInterval = 60000);
+    explicit DS18x20 (uint8_t, Milliseconds timeInterval = 60000);
     void Update (Milliseconds);
     
 // #pragma mark - DS18x20 Delegate
   public:
-    void (*UpdateTemperature) (float);
+    void (*UpdateTemperature) (float); // Celsius
     void (*DebugPrint) (char *);
+    void SetUpdateInterval(Milliseconds);
+    void ForceUpdate ();
 
   private:
     void  Prepare ();
@@ -35,4 +37,6 @@ typedef enum
     Milliseconds lastUpdatedTime;
 
     DS18x20SensorState state;
+
+    bool forceUpdateRequested;
   };

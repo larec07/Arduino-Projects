@@ -4,14 +4,27 @@
   : ds(OneWire(pin)),
     updateInterval(timeInterval),
     lastUpdatedTime(0),
-    state(DS18x20SensorState_Waiting) {}
+    state(DS18x20SensorState_Waiting),
+    forceUpdateRequested(false) {}
+
+    void DS18x20::SetUpdateInterval (Milliseconds interval)
+    {
+      updateInterval = interval;
+    }
+
+    void DS18x20::ForceUpdate ()
+    {
+      forceUpdateRequested = true;
+    }
 
    void DS18x20::Update (Milliseconds currentTime)
    {
      if (state == DS18x20SensorState_Waiting
-         && abs(currentTime - lastUpdatedTime) >= updateInterval)
+         && (abs(currentTime - lastUpdatedTime) >= updateInterval || forceUpdateRequested))
      {
+       forceUpdateRequested = false;
        lastUpdatedTime = currentTime;
+       
        Prepare();
      }
      else if (state == DS18x20SensorState_PrepareComplete

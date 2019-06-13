@@ -1,14 +1,11 @@
 #include "TimeConstants.h"
 
-Milliseconds absoluteValue (Milliseconds originValue) {
-
-  return originValue > 0 ? originValue : - originValue;
-}
-
 class Updatable {
 
 public:
+  
   Updatable (Milliseconds interval) : triggerInterval(interval) {};
+  
   void Update(Milliseconds currentTime)
   {
      if (absoluteValue(currentTime - prevTriggeredTime) >= triggerInterval)
@@ -20,7 +17,13 @@ public:
   };
 
 protected:
-  virtual void Trigger();
+  virtual void Trigger() = 0;
+
+ private:
+  Milliseconds absoluteValue (Milliseconds originValue) 
+  {
+    return originValue > 0 ? originValue : - originValue;
+  }
 
 private:
   Milliseconds triggerInterval;
